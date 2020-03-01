@@ -21,6 +21,7 @@ class CreateBusinessListingImagesTable extends Migration
                 ->on('business_listings')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
+            $table->boolean('is_default')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -14,7 +14,10 @@ class CreateBusinessListingsTable extends Migration
     public function up()
     {
         Schema::create('business_listings', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->string('name')->unique()->index();
+            $table->text('description')->index();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

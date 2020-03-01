@@ -15,8 +15,13 @@ class CreateBusinessListingsTable extends Migration
     {
         Schema::create('business_listings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique()->index();
+            $table->string('name')
+                ->unique()
+                ->index();
             $table->text('description')->index();
+            $table->string('email');
+            $table->string('phone');
+            $table->string('address');
             $table->softDeletes();
             $table->timestamps();
         });

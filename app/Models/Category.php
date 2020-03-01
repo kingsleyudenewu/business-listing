@@ -9,7 +9,7 @@ class Category extends Model
 {
     use SoftDeletes;
 
-    public function businessListing()
+    public function businessListings()
     {
         return $this->belongsToMany(BusinessListing::class, 'business_listing_category');
     }

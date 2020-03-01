@@ -14,7 +14,14 @@ class CreateBusinessListingImagesTable extends Migration
     public function up()
     {
         Schema::create('business_listing_images', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->integer('business_listing_id')->unsigned();
+            $table->foreign('business_listing_id')
+                ->references('id')
+                ->on('business_listings')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

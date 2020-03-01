@@ -27,6 +27,10 @@ class BusinessListingController extends Controller
         ]);
 
         if ($businessListing) {
+            // Check if image is added
+            if ($request->filled('image')) {
+
+            }
             return redirect()->back()->with('success', 'Operation Successful');
         }
         return redirect()->back()->with('errors', 'Operation failed');

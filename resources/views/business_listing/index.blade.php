@@ -54,9 +54,10 @@
                             <td>{{ $businessListing->address }}</td>
                             @if(auth()->user()->id)
                                 <td>
-                                    <a href="#"
-                                       class="btn btn-primary edit_listing"
-                                       data-edit-listing="{{ $businessListing->id }}">Edit</a>
+                                    <a href="{{ route('business.listing.show', $businessListing->id)
+                                     }}"
+                                       class="btn btn-primary"
+                                       data-edit-listing="{{ $businessListing->id }}">View</a>
                                     <a href="#"
                                        class="btn btn-warning delete_listing"
                                        data-delete-listing="{{ $businessListing->id }}">Delete</a>
@@ -81,7 +82,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('business.listing.index') }}" method="post"
+                    <form action="{{ route('business.listing.store') }}" method="post"
                           enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
@@ -92,7 +93,17 @@
                                    id="name" required>
                         </div>
 
-
+                        <div class="form-group">
+                            <label for="">Category <span class="error">*</span></label>
+                            <select name="category_id[]" class="form-control" id="category_id" multiple
+                                    required>
+                                <option value="" disabled>Select Category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}"> {{ $category->name
+                                    }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="form-group">
                             <label for="name">Description <span class="error">*</span></label>

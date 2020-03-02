@@ -6,6 +6,7 @@ use App\Http\Requests\BusinessListingRequest;
 use App\Http\Requests\UploadListingRequest;
 use App\Models\BusinessListing;
 use App\Models\BusinessListingImage;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class BusinessListingController extends Controller
@@ -13,15 +14,15 @@ class BusinessListingController extends Controller
     public function index()
     {
         $pageTitle = 'BusinessListing';
+        $categories = Category::all();
         $businessListings = BusinessListing::paginate(15);
-        return view('business_listing.index', compact('businessListings', 'pageTitle'));
+        return view('business_listing.index', compact('businessListings', 'pageTitle', 'categories'));
     }
 
     public function store(BusinessListingRequest $request)
     {
-        $businessListing = BusinessListing::firstOrCreate([
-            'name' => $request->name
-        ], [
+        $businessListing = BusinessListing::create([
+            'name' => $request->name,
             'description' => $request->description,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -29,8 +30,9 @@ class BusinessListingController extends Controller
         ]);
 
         if ($businessListing) {
+            $businessListing->categories()->attach($request->category_id);
             // Check if image is added
-            if ($request->filled('image')) {
+            if ($request->has('image')) {
                 BusinessListingImage::create([
                     'business_listing_id' => $businessListing->id,
                     'image' => $request->file('image')->store('listing', 'public'),

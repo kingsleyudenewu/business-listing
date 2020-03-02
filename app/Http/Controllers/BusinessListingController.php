@@ -21,7 +21,7 @@ class BusinessListingController extends Controller
     {
         $businessListing = BusinessListing::firstOrCreate([
             'name' => $request->name
-        ],[
+        ], [
             'description' => $request->description,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -45,10 +45,11 @@ class BusinessListingController extends Controller
     public function show(BusinessListing $businessListing)
     {
         if (!is_null($businessListing)) {
+            $pageTitle = 'Listing';
             // Update the views the listing details is clicked
             $businessListing->views += 1;
             $businessListing->save();
-            return view('business_listing.show', compact('businessListing'));
+            return view('business_listing.show', compact('businessListing', 'pageTitle'));
         }
 
         return redirect()->back()->with('errors', 'Listing not found');
@@ -65,39 +66,51 @@ class BusinessListingController extends Controller
         ]);
 
         if ($update) {
-            // Check if the image is set to default and is_default was selected
-            if ($request->is_default == '1') {
-                $defaultImage = BusinessListingImage::where('business_listing_id', $businessListing->id)
-                    ->where('is_default', 1)
-                    ->first();
-
-                if (!is_null($defaultImage)) {
-                    // Set the previous default to 0
-                    $defaultImage->update([
-                       'is_default' => 0
-                    ]);
-                }
-            }
-
+            return redirect()->back()->with('success', 'Operation Successful');
         }
+        return redirect()->back()->with('errors', 'Operation failed');
     }
 
     public function uploadListingImage(UploadListingRequest $request)
     {
+        // Check if the image is set to default and is_default was selected
+        if ($request->is_default == '1') {
+            $defaultImage = BusinessListingImage::where('is_default', 1)
+                ->where('business_listing_id', $request->business_listing_id)
+                ->first();
 
+            if (!is_null($defaultImage)) {
+                // Set the previous default to 0
+                $defaultImage->update([
+                    'is_default' => 0
+                ]);
+            }
+        }
+
+        // Upload image to listing table
+        $uploadImage = BusinessListingImage::create([
+            'is_default' => $request->is_default,
+            'image' => $request->file('image')->store('listing', 'public'),
+            'business_listing_id' => $request->business_listing_id,
+        ]);
+
+        if ($uploadImage) {
+            return redirect()->back()->with('success', 'Operation Successful');
+        }
+        return redirect()->back()->with('errors', 'Operation failed');
     }
 
     public function searchListing(Request $request)
     {
-        $listing = BusinessListing::where('name', 'like', '%'.$request->search.'%')
-            ->orWhere('description', 'like', '%'.$request->search.'%')
+        $listing = BusinessListing::where('name', 'like', '%' . $request->search . '%')
+            ->orWhere('description', 'like', '%' . $request->search . '%')
             ->get();
 
         if ($listing) {
             return response()->json([
-               'status' => true,
-               'data' => $listing,
-               'message' => 'success'
+                'status' => true,
+                'data' => $listing,
+                'message' => 'success'
             ]);
         }
 

@@ -13,7 +13,7 @@ class BusinessListingRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,17 +26,18 @@ class BusinessListingRequest extends FormRequest
         switch ($this->method()) {
             case "POST":
                 return [
-                    'name' => 'required|unique:associations,name',
-                    'type' => 'required',
-                    'federation_id' => 'required',
+                    'name' => 'required|unique:business_listings,name',
+                    'description' => 'required',
+                    'category_id' => 'required',
+                    'image' => 'required',
                 ];
                 break;
             case "PATCH":
                 $id = request()->id;
                 return [
-                    'name' => 'required|unique:associations,name,' . $id,
-                    'type' => 'required',
-                    'federation_id' => 'required',
+                    'name' => 'required|unique:business_listings,name,' . $id,
+                    'category_id' => 'required',
+                    'description' => 'required',
                 ];
                 break;
         }

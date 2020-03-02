@@ -18,6 +18,12 @@ class CreateBusinessListingsTable extends Migration
             $table->string('name')
                 ->unique()
                 ->index();
+            $table->integer('category_id')->unsigned();
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
             $table->text('description')->index();
             $table->string('email');
             $table->string('phone');

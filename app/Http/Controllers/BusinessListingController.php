@@ -12,7 +12,7 @@ class BusinessListingController extends Controller
 {
     public function index()
     {
-        $pageTitle = 'Listing';
+        $pageTitle = 'BusinessListing';
         $businessListings = BusinessListing::paginate(15);
         return view('business_listing.index', compact('businessListings', 'pageTitle'));
     }
@@ -34,7 +34,7 @@ class BusinessListingController extends Controller
                 BusinessListingImage::create([
                     'business_listing_id' => $businessListing->id,
                     'image' => $request->file('image')->store('listing', 'public'),
-                    'is_default' => $request->is_default ?? 0,
+                    'is_default' => 1,
                 ]);
             }
             return redirect()->back()->with('success', 'Operation Successful');

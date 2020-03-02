@@ -11,6 +11,7 @@ class Category extends Model
 
     public function businessListings()
     {
-        return $this->belongsToMany(BusinessListing::class, 'business_listing_category');
+        return $this->belongsToMany(BusinessListing::class, 'business_listing_category')
+            ->withPivot('is_default');
     }
 }

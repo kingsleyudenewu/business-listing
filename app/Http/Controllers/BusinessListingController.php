@@ -84,4 +84,24 @@ class BusinessListingController extends Controller
 
         }
     }
+
+    public function searchListing(Request $request)
+    {
+        $listing = BusinessListing::where('name', 'like', '%'.$request->search.'%')
+            ->orWhere('description', 'like', '%'.$request->search.'%')
+            ->get();
+
+        if ($listing) {
+            return response()->json([
+               'status' => true,
+               'data' => $listing,
+               'message' => 'success'
+            ]);
+        }
+
+        return response()->json([
+            'status' => false,
+            'message' => 'failed'
+        ]);
+    }
 }

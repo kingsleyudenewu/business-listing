@@ -53,4 +53,15 @@ class CategoryController extends Controller
         }
         return redirect()->back()->with('errors', 'Operation failed');
     }
+
+    public function destroy(Category $category)
+    {
+        if (!is_null($category)) {
+            $category->delete();
+            return response()->json([
+                'status' => true,
+                'data' => 'ok'
+            ]);
+        }
+    }
 }

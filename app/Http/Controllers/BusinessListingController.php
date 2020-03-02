@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BusinessListingRequest;
+use App\Http\Requests\UploadListingRequest;
 use App\Models\BusinessListing;
 use App\Models\BusinessListingImage;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class BusinessListingController extends Controller
     {
         $pageTitle = 'Listing';
         $businessListings = BusinessListing::paginate(15);
-        return view('category.index', compact('businessListings', 'pageTitle'));
+        return view('business_listing.index', compact('businessListings', 'pageTitle'));
     }
 
     public function store(BusinessListingRequest $request)
@@ -44,17 +45,13 @@ class BusinessListingController extends Controller
     public function show(BusinessListing $businessListing)
     {
         if (!is_null($businessListing)) {
-            return response()->json([
-                'status' => true,
-                'data' => $businessListing,
-                'message' => 'success'
-            ]);
+            // Update the views the listing details is clicked
+            $businessListing->views += 1;
+            $businessListing->save();
+            return view('business_listing.show', compact('businessListing'));
         }
 
-        return response()->json([
-            'status' => false,
-            'message' => 'failed'
-        ]);
+        return redirect()->back()->with('errors', 'Listing not found');
     }
 
     public function update(BusinessListingRequest $request, BusinessListing $businessListing)
@@ -83,6 +80,11 @@ class BusinessListingController extends Controller
             }
 
         }
+    }
+
+    public function uploadListingImage(UploadListingRequest $request)
+    {
+
     }
 
     public function searchListing(Request $request)

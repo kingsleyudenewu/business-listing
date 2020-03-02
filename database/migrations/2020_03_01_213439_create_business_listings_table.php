@@ -22,6 +22,7 @@ class CreateBusinessListingsTable extends Migration
             $table->string('email');
             $table->string('phone');
             $table->string('address');
+            $table->integer('views')->nullable()->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

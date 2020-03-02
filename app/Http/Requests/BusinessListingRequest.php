@@ -23,8 +23,22 @@ class BusinessListingRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        switch ($this->method()) {
+            case "POST":
+                return [
+                    'name' => 'required|unique:associations,name',
+                    'type' => 'required',
+                    'federation_id' => 'required',
+                ];
+                break;
+            case "PATCH":
+                $id = request()->id;
+                return [
+                    'name' => 'required|unique:associations,name,' . $id,
+                    'type' => 'required',
+                    'federation_id' => 'required',
+                ];
+                break;
+        }
     }
 }

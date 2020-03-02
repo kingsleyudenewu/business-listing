@@ -10,7 +10,7 @@ class CategoryController extends Controller
     public function index()
     {
         $pageTitle = 'Category';
-        $categories = Category::paginate(15);
+        $categories = Category::all();
         return view('category.index', compact('categories', 'pageTitle'));
     }
 

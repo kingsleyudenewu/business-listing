@@ -22,3 +22,11 @@ Auth::routes([
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/listing', 'BusinessListingController@index')->name('business.listing');
+
+Route::group(['middleware' => ['auth']], function (){
+    Route::get('/listing', 'BusinessListingController@index')->name('business.listing.index');
+    Route::post('/listing', 'BusinessListingController@store')->name('business.listing.store');
+    Route::get('/listing/{id}', 'BusinessListingController@show')->name('business.listing.show');
+    Route::patch('/listing/{id}', 'BusinessListingController@update')->name('business.listing.update');
+    Route::resource('category', 'CategoryController');
+});

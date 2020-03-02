@@ -13,7 +13,7 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,18 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        switch ($this->method()) {
+            case "POST":
+                return [
+                    'name' => 'required|unique:categories,name',
+                ];
+                break;
+            case "PATCH":
+                $id = request()->id;
+                return [
+                    'name' => 'required|unique:categories,name,' . $id,
+                ];
+                break;
+        }
     }
 }

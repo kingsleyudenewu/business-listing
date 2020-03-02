@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class BusinessListing extends Model
 {
     use SoftDeletes;
+    protected $guarded = ['id'];
 
     public function businessListingImage()
     {

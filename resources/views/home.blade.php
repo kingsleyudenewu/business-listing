@@ -1,23 +1,38 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="page-title-box">
+                <div class="row align-items-center">
+                    <div class="col-sm-6">
+{{--                        <h4 class="page-title">{{ $pageTitle }}</h4>--}}
+                    </div>
+                    @if(auth()->user()->id)
+                        <div class="col-sm-6">
+                            <div class="float-right">
+                                <button class="btn btn-primary waves-effect waves-light"
+                                        data-toggle="modal" data-target="#accept">Add Business
+                                    Listing
+                                </button>
+                            </div>
                         </div>
                     @endif
 
-                    You are logged in!
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    @include('includes.alert')
+                </div>
+            </div>
+
+            <div class="row">
             </div>
         </div>
     </div>
-</div>
 @endsection
+

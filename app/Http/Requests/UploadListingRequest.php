@@ -13,7 +13,7 @@ class UploadListingRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,17 +26,7 @@ class UploadListingRequest extends FormRequest
         switch ($this->method()) {
             case "POST":
                 return [
-                    'name' => 'required|unique:associations,name',
-                    'type' => 'required',
-                    'federation_id' => 'required',
-                ];
-                break;
-            case "PATCH":
-                $id = request()->id;
-                return [
-                    'name' => 'required|unique:associations,name,' . $id,
-                    'type' => 'required',
-                    'federation_id' => 'required',
+                    'image' => 'required',
                 ];
                 break;
         }

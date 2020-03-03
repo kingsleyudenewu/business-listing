@@ -44,8 +44,9 @@ class BusinessListingController extends Controller
         return redirect()->back()->with('errors', 'Operation failed');
     }
 
-    public function show(BusinessListing $businessListing)
+    public function show($id)
     {
+        $businessListing = BusinessListing::with('categories', 'businessListingImage')->find($id);
         if (!is_null($businessListing)) {
             $pageTitle = 'Listing';
             // Update the views the listing details is clicked

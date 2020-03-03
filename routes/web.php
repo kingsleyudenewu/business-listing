@@ -25,6 +25,7 @@ Route::get('/listing', 'BusinessListingController@index')->name('business.listin
 
 Route::group(['middleware' => ['auth']], function (){
     Route::post('/listing', 'BusinessListingController@store')->name('business.listing.store');
+    Route::post('/upload_image_listing', 'BusinessListingController@uploadListingImage')->name('business.listing.upload');
     Route::get('/listing/{id}', 'BusinessListingController@show')->name('business.listing.show');
     Route::patch('/listing/{id}', 'BusinessListingController@update')->name('business.listing.update');
     Route::resource('category', 'CategoryController');

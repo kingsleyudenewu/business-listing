@@ -10,7 +10,7 @@
                     <div class="col-sm-6">
                         <h4 class="page-title">{{ $pageTitle }}</h4>
                     </div>
-                    @if(auth()->user()->id)
+                    @if(auth()->user())
                         <div class="col-sm-6">
                             <div class="float-right">
                                 <button class="btn btn-primary waves-effect waves-light"
@@ -39,7 +39,7 @@
                         <th>email</th>
                         <th>Phone</th>
                         <th>Address</th>
-                        @if(auth()->user()->id)
+                        @if(auth()->user())
                             <th>Action</th>
                         @endif
                     </tr>
@@ -52,7 +52,7 @@
                             <td>{{ $businessListing->email }}</td>
                             <td>{{ $businessListing->phone }}</td>
                             <td>{{ $businessListing->address }}</td>
-                            @if(auth()->user()->id)
+                            @if(auth()->user())
                                 <td>
                                     <a href="{{ route('business.listing.show', $businessListing->id)
                                      }}"

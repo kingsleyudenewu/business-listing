@@ -16,6 +16,12 @@
                         <i class="ti-home"></i><span>Category</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('business.listing.index') }}"
+                       class="waves-effect">
+                        <i class="ti-home"></i><span>Listing</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
